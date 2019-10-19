@@ -1,0 +1,660 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="js/bootstrap.min.js"></script>
+
+    <style>
+        @import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+        * {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: hidden
+        }
+
+        .BG {
+            background-image: url("img/bg.png");
+            background-size: cover;
+            width: 100%;
+            height: 100%
+        }
+
+        img {
+            width: 100%;
+        }
+
+        .oval {
+            width: 46%;
+            height: 34%;
+            transform: translate(-50%, -50%) scaleY(.7);
+            border-radius: 60%;
+            border: 1px dashed #6d5b88;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+        }
+
+        .planet {
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZTc4YTt9LmNscy0ye2ZpbGw6I2ZmY2Y4Mjt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPnllbGxvd19wbGFuZXQ8L3RpdGxlPjxnIGlkPSJMYXllcl8xMiIgZGF0YS1uYW1lPSJMYXllciAxMiI+PGNpcmNsZSBjbGFzcz0iY2xzLTEiIGN4PSIxMjUiIGN5PSIxMjUiIHI9IjEyMiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTEyNSwyNDdBMTIyLDEyMiwwLDAsMCwyMzIuOTEsMTgySDE3LjA5QTEyMiwxMjIsMCwwLDAsMTI1LDI0N1oiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik0xNy4wNSwxODEuODdIMjMzYTEyMS4xNywxMjEuMTcsMCwwLDAsMTMuNjktNDcuNDNWMTE1LjU2Yy0uMTEtMS40NC0uMjUtMi44Ny0uNDEtNC4yOWE0LjM2LDQuMzYsMCwwLDAtMy43Ny0xLjk0aC0uMDVjLTIuMywwLTQuMTgsMS41My00LjE4LDMuNHYzNC4yMWMwLDEuODctMS44NywzLjQtNC4xNywzLjRIMjM0YTQsNCwwLDAsMS00LjE0LTNWMTIwLjYxYzAtMS44Ny0xLjg4LTMuNC00LjE4LTMuNGgtLjA1Yy0yLjMsMC00LjE4LDEuNTMtNC4xOCwzLjR2MzJjMCwxLjg3LTEuODgsMy40LTQuMTcsMy40aC0uMDZjLTIuMjksMC00LjE3LTEuNTMtNC4xNy0zLjRWMTI5LjNjMC0xLjg3LTEuODgtMy40LTQuMTgtMy40aDBjLTIuMywwLTQuMTgsMS41My00LjE4LDMuNHYzMS4yMWMwLDEuODctMS44OCwzLjQtNC4xNywzLjRoMGMtMi4zLDAtNC4xOC0xLjUzLTQuMTgtMy40VjEzNi4wOGMwLTEuODctMS44OC0zLjQtNC4xOC0zLjRoMGMtMi4zLDAtNC4xOCwxLjUzLTQuMTgsMy40djEzLjY1YzAsMS44Ny0xLjg3LDMuNC00LjE3LDMuNGgwYy0yLjMsMC00LjE4LTEuNTMtNC4xOC0zLjRWMTI3LjRjMC0xLjg3LTEuODgtMy40LTQuMTgtMy40aDBjLTIuMywwLTQuMTgsMS41My00LjE4LDMuNHY0MS4wOWMwLDEuODctMS44NywzLjQtNC4xNywzLjRoLS4wNWMtMi4zLDAtNC4xOC0xLjUzLTQuMTgtMy40VjEzOC44N2MwLTEuODctMS44OC0zLjQtNC4xOC0zLjRoMGMtMi4zLDAtNC4xNywxLjUzLTQuMTcsMy40djE4LjM1aDB2OC44OGMwLDEuODctMS44OCwzLjQtNC4xOCwzLjRIMTUwYy0yLjMsMC00LjE4LTEuNTMtNC4xOC0zLjRWMTQ1LjY2YzAtMS44Ny0xLjg4LTMuNC00LjE4LTMuNGgwYy0yLjI5LDAtNC4xNywxLjUzLTQuMTcsMy40djE2LjI1YzAsMS44Ny0xLjg4LDMuNC00LjE4LDMuNGgtLjA1Yy0yLjMsMC00LjE4LTEuNTMtNC4xOC0zLjRWMTQxLjI3YzAtMS44Ny0xLjg4LTMuNC00LjE3LTMuNGgtLjA2Yy0yLjI5LDAtNC4xNywxLjUzLTQuMTcsMy40djEyLjk1YzAsMS44Ny0xLjg4LDMuNC00LjE4LDMuNGgtLjA1Yy0yLjMsMC00LjE4LTEuNTMtNC4xOC0zLjRWMTM0YzAtMS44Ny0xLjg4LTMuNC00LjE3LTMuNEgxMDhjLTIuMjksMC00LjE3LDEuNTMtNC4xNywzLjR2MzcuNjFjMCwxLjg3LTEuODgsMy40LTQuMTgsMy40aC0uMDVjLTIuMywwLTQuMTgtMS41My00LjE4LTMuNFYxNDIuMjdjMC0xLjg3LTEuODgtMy40LTQuMTctMy40aC0uMDZjLTIuMjksMC00LjE3LDEuNTMtNC4xNywzLjRWMTYzLjRjMCwxLjg3LTEuODgsMy40LTQuMTgsMy40aDBjLTIuMywwLTQuMTgtMS41My00LjE4LTMuNHYtMzJjMC0xLjg3LTEuODgtMy40LTQuMTctMy40aC0uMDZjLTIuMjksMC00LjE3LDEuNTMtNC4xNywzLjR2MTcuNDVjMCwxLjg3LTEuODgsMy40LTQuMTgsMy40aDBjLTIuMywwLTQuMTgtMS41My00LjE4LTMuNFYxMjMuMjFjMC0xLjg3LTEuODgtMy40LTQuMTctMy40aC0uMDZjLTIuMjksMC00LjE3LDEuNTMtNC4xNywzLjR2MzUuN2MwLDEuODctMS44OCwzLjQtNC4xOCwzLjRoMGMtMi4zLDAtNC4xOC0xLjUzLTQuMTgtMy40VjEzMS4zOWMwLTEuODctMS44OC0zLjQtNC4xNy0zLjRoMGMtMi4zLDAtNC4xOCwxLjUzLTQuMTgsMy40djIyLjE0YzAsMS44Ny0xLjg4LDMuNC00LjE4LDMuNGgtLjA1Yy0yLjMsMC00LjE4LTEuNTMtNC4xOC0zLjRWMTE3LjkyYzAtMS44Ny0xLjg4LTMuNC00LjE3LTMuNGgtLjA1Yy0yLjMsMC00LjE4LDEuNTMtNC4xOCwzLjR2MzEuODFjMCwxLjg3LTEuODgsMy40LTQuMTgsMy40aC0uMDVhNC40LDQuNCwwLDAsMS0zLjY2LTEuNzdWMTA5Ljg0YzAtMS44Ny0xLjg4LTMuNC00LjE4LTMuNGgwYTQuNDgsNC40OCwwLDAsMC0zLjQzLDEuNDdjLS4zMSwyLjE5LS41Niw0LjQxLS43NSw2LjY0djIwLjlBMTIxLjE0LDEyMS4xNCwwLDAsMCwxNy4wNSwxODEuODdaIi8+PC9nPjwvc3ZnPg==");
+            background-size: cover;
+            width: 110px;
+            height: 110px;
+            position: absolute;
+            cursor: pointer;
+        }
+
+        .orient {
+            width: 80%;
+            height: 80%;
+            transform: translate(-50%, -50%) scaleY(.7);
+            border-radius: 60%;
+            border: 1px dashed #6d5b88;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+        }
+
+        .planet>.glow {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 0 0 25px 0 #fff, inset 0 0 25px 0 #fff;
+            animation: blinkblink 2s infinite linear;
+            animation-duration: 2s;
+            animation-timing-function: linear;
+            animation-delay: 0s;
+            animation-iteration-count: infinite;
+            animation-direction: normal;
+            animation-fill-mode: none;
+            animation-play-state: running;
+        }
+
+        @keyframes blinkblink {
+            0% {
+                transform: scale(.9);
+                opacity: 0
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1
+            }
+
+            to {
+                transform: scale(1.3);
+                opacity: 0
+            }
+        }
+
+        .pop {
+            display: none;
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100vw;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .pop>.planet {
+            left: calc(0px);
+            top: calc(0px - 5vh);
+            width: 110vh;
+            height: 110vh;
+        }
+
+        .return {
+            position: fixed;
+            top: 3vh;
+            right: 3vw;
+            width: 3%;
+            height: 2%;
+            z-index: 101;
+            cursor: pointer;
+        }
+
+        .plan {
+            position: fixed;
+            left: 110vh;
+            top: 0px;
+            width: calc(100vw - 110vh);
+            height: auto;
+        }
+
+        .details * {
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .details h1 {
+            text-align: center;
+            margin-top: 3vh;
+        }
+
+        .details>.line {
+            height: 2px;
+            width: 80%;
+            margin: 0% 10% 0% 10%;
+            background: rgba(255, 255, 255, 0.675);
+        }
+
+        .details>.body {
+            padding-left: 15%;
+            padding-right: 15%;
+            overflow-y: scroll;
+            height: 85vh;
+        }
+
+        .details>.body h3 {
+            /* text-decoration: underline; */
+            margin-bottom: 0.7em;
+        }
+
+        .details .part>p {
+            /* margin-left: 1em; */
+            font-size: 1.15em;
+            line-height: 2em;
+            margin-bottom: 1.5em;
+            /* text-indent : 2em; */
+        }
+
+        .train {
+            background-image: url("img/train.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            animation: move 20s infinite linear;
+            transform: translate(-50%, -50%);
+            transform: rotate(-70deg);
+            top: 90%;
+            left: -8%;
+            z-index: 80;
+            filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))
+        }
+
+        @keyframes move {
+            10% {
+                transform: rotate(-10deg);
+                top: 68%;
+                left: 15%;
+            }
+
+            19% {
+                transform: rotate(-15deg);
+                top: 68%;
+                left: 15%;
+            }
+
+            28% {
+                transform: rotate(-15deg);
+                top: 35%;
+                left: 24%;
+            }
+
+            37% {
+                transform: rotate(15deg);
+                top: 35%;
+                left: 24%;
+            }
+
+            46% {
+                transform: rotate(0deg);
+                top: 64%;
+                left: 46%;
+            }
+
+            55% {
+                transform: rotate(-15deg);
+                top: 64%;
+                left: 46%;
+            }
+
+            64% {
+                transform: rotate(0deg);
+                top: 28%;
+                left: 65%;
+            }
+
+            73% {
+                transform: rotate(16deg);
+                top: 28%;
+                left: 65%;
+            }
+
+            82% {
+                transform: rotate(0deg);
+                top: 50%;
+                left: 82%;
+            }
+
+            91% {
+                transform: rotate(20deg);
+                top: 50%;
+                left: 82%;
+            }
+
+            100% {
+                transform: rotate(40deg);
+                top: 110%;
+                left: 112%;
+            }
+        }
+
+        @keyframes hell {
+            0% {
+                transform: translate(0%, 0%) scale(1);
+                background-image: url('img/yik.png');
+                z-index: 12;
+            }
+
+            12.5% {
+                background-image: url('img/yik.png');
+                transform: translate(50%, -15%) scale(.5);
+                z-index: 12;
+            }
+
+            25% {
+                background-image: url('img/yik.png');
+                transform: translate(0%, -30%) scale(0);
+                z-index: 11;
+            }
+
+            26% {
+                background-image: url('img/ming.png');
+                z-index: 11;
+            }
+
+
+            37.5% {
+                background-image: url('img/ming.png');
+                transform: translate(-50%, -15%) scale(.5);
+                z-index: 11;
+            }
+
+            50% {
+                background-image: url('img/ming.png');
+                transform: translate(0%, 0%) scale(1);
+                z-index: 12;
+            }
+
+            62.5% {
+                background-image: url('img/ming.png');
+                transform: translate(50%, -15%) scale(.5);
+                z-index: 12;
+            }
+
+            75% {
+                background-image: url('img/ming.png');
+                transform: translate(0%, -30%) scale(0);
+                z-index: 11;
+            }
+
+            76% {
+                background-image: url('img/yik.png');
+                z-index: 11;
+            }
+
+            87.5% {
+                background-image: url('img/yik.png');
+                transform: translate(-50%, -15%) scale(.5);
+                z-index: 11;
+            }
+
+            100% {
+                background-image: url('img/yik.png');
+                transform: translate(0%, 0%) scale(1);
+                z-index: 12;
+            }
+        }
+
+        @keyframes hell2 {
+            0% {
+                background-image: url('img/wangshen.png');
+                transform: translate(0%, -30%) scale(0);
+                z-index: 11;
+            }
+
+            1% {
+                background-image: url('img/lada.png');
+                z-index: 11;
+            }
+
+            12.5% {
+                background-image: url('img/lada.png');
+                transform: translate(-50%, -15%) scale(.5);
+                z-index: 11;
+            }
+
+            25% {
+                background-image: url('img/lada.png');
+                transform: translate(0%, 0%) scale(1);
+                z-index: 12;
+            }
+
+            37.5% {
+                background-image: url('img/lada.png');
+                transform: translate(50%, -15%) scale(.5);
+                z-index: 12;
+            }
+
+            50% {
+                background-image: url('img/lada.png');
+                transform: translate(0%, -30%) scale(0);
+                z-index: 11;
+            }
+
+            51% {
+                background-image: url('img/wangshen.png');
+                z-index: 11;
+            }
+
+            62.5% {
+                background-image: url('img/wangshen.png');
+                transform: translate(-50%, -15%) scale(.5);
+                z-index: 11;
+            }
+
+            75% {
+                background-image: url('img/wangshen.png');
+                transform: translate(0%, 0%) scale(1);
+                z-index: 12;
+            }
+
+            87.5% {
+                background-image: url('img/wangshen.png');
+                transform: translate(50%, -15%) scale(.5);
+                z-index: 12;
+            }
+
+            100% {
+                background-image: url('img/wangshen.png');
+                transform: translate(0%, -30%) scale(0);
+                z-index: 11;
+            }
+        }
+
+        @keyframes twoball {
+            0% {
+                transform: translate(0%, 0%) scale(1);
+                z-index: 12;
+            }
+
+            12.5% {
+                transform: translate(50%, -15%) scale(.5);
+                z-index: 12;
+            }
+
+            25% {
+                transform: translate(0%, -30%) scale(0);
+                z-index: 11;
+            }
+
+            37.5% {
+                transform: translate(-50%, -15%) scale(.5);
+                z-index: 11;
+            }
+
+            50% {
+                transform: translate(0%, 0%) scale(1);
+                z-index: 12;
+            }
+
+            62.5% {
+                transform: translate(50%, -15%) scale(.5);
+                z-index: 12;
+            }
+
+            75% {
+                transform: translate(0%, -30%) scale(0);
+                z-index: 11;
+            }
+
+            87.5% {
+                transform: translate(-50%, -15%) scale(.5);
+                z-index: 11;
+            }
+
+            100% {
+                transform: translate(0%, 0%) scale(1);
+                z-index: 12;
+            }
+        }
+
+        @keyframes fourball {
+            0% {
+                transform: translate(0%, 0%) scale(1);
+                z-index: 40;
+            }
+
+            25% {
+                transform: translate(90%, -15%) scale(0.3);
+                z-index: 30;
+            }
+
+            50% {
+                transform: translate(0%, -30%) scale(0);
+                z-index: 10;
+            }
+
+            75% {
+                transform: translate(-90%, -15%) scale(0.3);
+                z-index: 20;
+            }
+
+            100% {
+                transform: translate(0%, 0%) scale(1);
+                z-index: 40;
+            }
+        }
+
+        @keyframes rollingSnowman {
+            0% {
+                transform: rotate(0deg) translateY(-5%);
+                ;
+            }
+
+            to {
+                transform: rotate(360deg) translateY(-5%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas class="BG" id="canvas"></canvas>
+    <div class="orient"></div>
+    <div class="train"></div>
+    <div class="planet"
+        style="left: 11%; top: 54%; background-image: url('img/snowman.png'); animation: rollingSnowman 3s infinite linear; "
+        onclick="showPop('MU69', 'img/snowman.png', [{head:'簡介', content:'MU69 擁有特殊的地理結構，被太空總署選作為2045年的「太空傘兵訓練基地」。嚴肅的軍方組織，和雪人的外型似乎顯得與其不太相符。TBTA 獨家代理，體驗一日傘兵生活，溫馨精彩刺激的親子時光。'},{head:'• 特殊節慶', content:'每年十月二十日，軍人們將與民眾共襄盛舉。一群人將聚集在 Potato Canyon（馬鈴薯峽谷），帶著自備或現場發放的滑翔翼，於上午 11:08:03 一同滑向對岸。'}])">
+        <div class="glow"></div>
+    </div>
+
+    <div class="planet"
+        style="left: 24%; top: 19%; background-image: url('img/yik.png'); filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7)); animation: fourball 10s infinite linear; animation-delay: 0s;"
+        onclick="showPop('地獄體驗之旅', 'img/yik.png', [{head:'簡介', content:'你一定很好奇地獄長怎樣吧？不急，讓我帶你去逛逛～'},{head:'• 第一站：伊克西翁', content:'人的一生當中，總有犯錯的時候。有的人會在某一天幡然醒悟，有的人卻死到臨頭也不知悔改。對於不同的人，地獄有不同的懲罰方法。而伊克里翁，就因為他的貪得無厭，被打入地獄並綁在不停旋轉的火輪上。'},{head:'• 第二站：拉達曼迪斯', content:'進入地獄之後，你將遇到那個最了解你的人----判官。他們將根據你生前的所作所為，判定你應該接受怎樣的處罰。'},{head:'• 第三站：亡神', content:'看看你的周圍，是誰在陪伴你前行。陪伴著你的人，有可能是那些愛你的人；而那些被你傷過的人，可能正等在前方...'},{head:'• 第四站：冥王', content:'終於，你見到了冥王。稍微一個不小心回答錯了問題，你將永遠看不到冥王的臉。知道自己錯在哪裡了嗎？不知道的會就繼續掛著吧！'}])">
+        <div class="glow"></div>
+    </div>
+    <div class="planet"
+        style="left: 24%; top: 19%; background-image: url('img/lada.png'); filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7)); animation: fourball 10s infinite linear; animation-delay: -2.5s;"
+        onclick="showPop('地獄體驗之旅', 'img/lada.png', [{head:'簡介', content:'你一定很好奇地獄長怎樣吧？不急，讓我帶你去逛逛～'},{head:'• 第一站：伊克西翁', content:'人的一生當中，總有犯錯的時候。有的人會在某一天幡然醒悟，有的人卻死到臨頭也不知悔改。對於不同的人，地獄有不同的懲罰方法。而伊克里翁，就因為他的貪得無厭，被打入地獄並綁在不停旋轉的火輪上。'},{head:'• 第二站：拉達曼迪斯', content:'進入地獄之後，你將遇到那個最了解你的人----判官。他們將根據你生前的所作所為，判定你應該接受怎樣的處罰。'},{head:'• 第三站：亡神', content:'看看你的周圍，是誰在陪伴你前行。陪伴著你的人，有可能是那些愛你的人；而那些被你傷過的人，可能正等在前方...'},{head:'• 第四站：冥王', content:'終於，你見到了冥王。稍微一個不小心回答錯了問題，你將永遠看不到冥王的臉。知道自己錯在哪裡了嗎？不知道的會就繼續掛著吧！'}])">
+        <div class="glow"></div>
+    </div>
+    <div class="planet"
+        style="left: 24%; top: 19%; background-image: url('img/ming.png'); filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7)); animation: fourball 10s infinite linear; animation-delay: -5s;"
+        onclick="showPop('地獄體驗之旅', 'img/ming.png', [{head:'簡介', content:'你一定很好奇地獄長怎樣吧？不急，讓我帶你去逛逛～'},{head:'• 第一站：伊克西翁', content:'人的一生當中，總有犯錯的時候。有的人會在某一天幡然醒悟，有的人卻死到臨頭也不知悔改。對於不同的人，地獄有不同的懲罰方法。而伊克里翁，就因為他的貪得無厭，被打入地獄並綁在不停旋轉的火輪上。'},{head:'• 第二站：拉達曼迪斯', content:'進入地獄之後，你將遇到那個最了解你的人----判官。他們將根據你生前的所作所為，判定你應該接受怎樣的處罰。'},{head:'• 第三站：亡神', content:'看看你的周圍，是誰在陪伴你前行。陪伴著你的人，有可能是那些愛你的人；而那些被你傷過的人，可能正等在前方...'},{head:'• 第四站：冥王', content:'終於，你見到了冥王。稍微一個不小心回答錯了問題，你將永遠看不到冥王的臉。知道自己錯在哪裡了嗎？不知道的會就繼續掛著吧！'}])">
+        <div class="glow"></div>
+    </div>
+    <div class="planet"
+        style="left: 24%; top: 19%; background-image: url('img/wangshen.png'); filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7)); animation: fourball 10s infinite linear; animation-delay: -7.5s"
+        onclick="showPop('地獄體驗之旅', 'img/wangshen.png', [{head:'簡介', content:'你一定很好奇地獄長怎樣吧？不急，讓我帶你去逛逛～'},{head:'• 第一站：伊克西翁', content:'人的一生當中，總有犯錯的時候。有的人會在某一天幡然醒悟，有的人卻死到臨頭也不知悔改。對於不同的人，地獄有不同的懲罰方法。而伊克里翁，就因為他的貪得無厭，被打入地獄並綁在不停旋轉的火輪上。'},{head:'• 第二站：拉達曼迪斯', content:'進入地獄之後，你將遇到那個最了解你的人----判官。他們將根據你生前的所作所為，判定你應該接受怎樣的處罰。'},{head:'• 第三站：亡神', content:'看看你的周圍，是誰在陪伴你前行。陪伴著你的人，有可能是那些愛你的人；而那些被你傷過的人，可能正等在前方...'},{head:'• 第四站：冥王', content:'終於，你見到了冥王。稍微一個不小心回答錯了問題，你將永遠看不到冥王的臉。知道自己錯在哪裡了嗎？不知道的會就繼續掛著吧！'}])">
+        <div class="glow"></div>
+    </div>
+
+    <div class="planet"
+        style="left: 44%; top: 68%; background-image: url('img/mianmo.png'); filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7)); animation: twoball 10s infinite linear;"
+        onclick="showPop('K-B', 'img/mianmo.png', [{head:'簡介', content:'保持水光透亮的肌膚，是每個女人一輩子的目標。K-B美容集團最新研發的美容之旅，採用外星來的原料，幫助參加形成的每一個人，擁有更佳水潤有彈性的肌膚。'},{head:'• 第一站：穀神星', content:'在排放水蒸氣的地區打開全身的毛孔，再將黏土和碳酸鹽的混合物敷在臉上。當然，材料有經過特殊的處理，絕對不傷肌膚。在這裡，你能將毛孔中的髒污油垢通通清除！'},{head:'• 第二站：K2-18b', content:'再將毛孔清潔乾淨後，這裡的水蒸氣能保證你的肌膚繼續保持在濕潤的狀態。最後我們將在厚冰層收斂你的毛孔，讓你的毛孔不會再受到粉刺黑頭的困擾。'}])">
+        <div class="glow"></div>
+    </div>
+    <div class="planet"
+        style="left: 44%; top: 68%; background-image: url('img/K2-18b.png'); filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7)); animation: twoball 10s infinite linear; animation-delay: -2.5s;"
+        onclick="showPop('K-B', 'img/K2-18b.png', [{head:'簡介', content:'保持水光透亮的肌膚，是每個女人一輩子的目標。K-B美容集團最新研發的美容之旅，採用外星來的原料，幫助參加形成的每一個人，擁有更佳水潤有彈性的肌膚。'},{head:'• 第一站：穀神星', content:'在排放水蒸氣的地區打開全身的毛孔，再將黏土和碳酸鹽的混合物敷在臉上。當然，材料有經過特殊的處理，絕對不傷肌膚。在這裡，你能將毛孔中的髒污油垢通通清除！'},{head:'• 第二站：K2-18b', content:'再將毛孔清潔乾淨後，這裡的水蒸氣能保證你的肌膚繼續保持在濕潤的狀態。最後我們將在厚冰層收斂你的毛孔，讓你的毛孔不會再受到粉刺黑頭的困擾。'}])">
+        <div class="glow"></div>
+    </div>
+
+    <div class="planet"
+        style="left: 68%; top: 19%; background-image: url('img/renshen.png'); filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7)); animation: twoball 10s infinite linear;"
+        onclick="showPop('情侶最佳旅遊勝地', 'img/renshen.png', [{head:'簡介', content:'想給另一半一個難忘的週年旅行？這個行程絕對是你的最佳選擇！'},{head:'• 第一站：妊神星', content:'這是一顆改變過型態的星球，但在經過碰撞後，他變得充滿矽酸鹽礦物，每一顆都是經過高壓及高溫的的考驗。象徵著你們的愛情，不會輕易受到阻撓，也代表彼此願意為了雙方而改變自己。'},{head:'• 第二站：鳥神星', content:'就像這顆類 QB1 天體的表面成份一樣，你們彼此之間永遠都能激出不一樣的火花。就算有時不確定甚至想離開，總會有更大的力量讓你們無法離開彼此。'}])">
+        <div class="glow"></div>
+    </div>
+    <div class="planet"
+        style="left: 68%; top: 19%; background-image: url('img/niaoshen.png'); filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7)); animation: twoball 10s infinite linear; animation-delay: -2.5s;"
+        onclick="showPop('情侶最佳旅遊勝地', 'img/niaoshen.png', [{head:'簡介', content:'想給另一半一個難忘的週年旅行？這個行程絕對是你的最佳選擇！'},{head:'• 第一站：妊神星', content:'這是一顆改變過型態的星球，但在經過碰撞後，他變得充滿矽酸鹽礦物，每一顆都是經過高壓及高溫的的考驗。象徵著你們的愛情，不會輕易受到阻撓，也代表彼此願意為了雙方而改變自己。'},{head:'• 第二站：鳥神星', content:'就像這顆類 QB1 天體的表面成份一樣，你們彼此之間永遠都能激出不一樣的火花。就算有時不確定甚至想離開，總會有更大的力量讓你們無法離開彼此。'}])">
+        <div class="glow"></div>
+    </div>
+
+    <div class="planet"
+        style="left: 81%; top: 57%; background-image: url('img/hundun.png'); filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7)); animation: twoball 10s infinite linear;"
+        onclick="showPop('探索起源', 'img/hundun.png', [{head:'簡介', content:'到底是先有雞還是先有蛋？這是人們一直以來無法得出正確答案的問題。這趟旅程或許不能讓我們得到解答，但卻能讓我們看到那很久很久以前的混沌無極狀態...'},{head:'• 第一站：混沌', content:'在那一團混亂中，探索世界未知又神秘的起源...'},{head:'• 第二站：創神星', content:'走過那片混沌後，美麗的世界將在我們面前展開'}])">
+        <div class="glow"></div>
+    </div>
+    <div class="planet"
+        style="left: 81%; top: 57%; background-image: url('img/chuangshen.png'); filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7)); animation: twoball 10s infinite linear; animation-delay: -2.5s;"
+        onclick="showPop('探索起源', 'img/chuangshen.png', [{head:'簡介', content:'到底是先有雞還是先有蛋？這是人們一直以來無法得出正確答案的問題。這趟旅程或許不能讓我們得到解答，但卻能讓我們看到那很久很久以前的混沌無極狀態...'},{head:'• 第一站：混沌', content:'在那一團混亂中，探索世界未知又神秘的起源...'},{head:'• 第二站：創神星', content:'走過那片混沌後，美麗的世界將在我們面前展開'}])">
+        <div class="glow"></div>
+    </div>
+
+    <div class="pop" id="pop">
+        <div class="BG"></div>
+        <a onClick="(function(){ document.getElementById('pop').style.display='none';})()" class="return"><img
+                src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+DQo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA0ODkgNDg5IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0ODkgNDg5OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiBjbGFzcz0iIj48Zz48Zz4NCgk8cGF0aCBkPSJNNDI5LjQsMjU1LjAzM2MtMzUuNC00My4xLTEwMi4xLTk0LjQtMjE5LjctOTguOHYtNzkuOGMwLTQuNy0yLjctOS4xLTctMTEuMXMtOS40LTEuNC0xMywxLjZMNC41LDIxOS42MzMgICBjLTIuOCwyLjMtNC41LDUuOC00LjUsOS40YzAsMy43LDEuNiw3LjEsNC40LDkuNGwxODUuMiwxNTMuM2MzLjcsMyw4LjcsMy43LDEzLDEuNmM0LjMtMiw3LTYuMyw3LTExLjF2LTc5LjUgICBjNzYuOCwwLjMsMTk0LjIsNiwyNTYuNSwxMTUuOWMyLjIsMy45LDYuMyw2LjIsMTAuNyw2LjJjMSwwLDIuMS0wLjEsMy4xLTAuNGM1LjQtMS40LDkuMS02LjMsOS4xLTExLjggICBDNDg5LjEsMzcxLjUzMyw0NzMuNCwzMDguNjMzLDQyOS40LDI1NS4wMzN6IE0xOTcuNCwyNzguMjMzTDE5Ny40LDI3OC4yMzNjLTMuMywwLTYuNCwxLjMtOC43LDMuNnMtMy42LDUuNC0zLjYsOC43djY1LjcgICBsLTE1My41LTEyNy4xbDE1My42LTEyNi43djY1LjdjMCw2LjcsNS40LDEyLjIsMTIuMSwxMi4zYzE3NiwxLjcsMjQxLjYsMTA5LDI2MC43LDE4NC40ICAgQzM4Mi4yLDI3OC4zMzMsMjY4LjcsMjc4LjIzMywxOTcuNCwyNzguMjMzeiIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgY2xhc3M9ImFjdGl2ZS1wYXRoIiBkYXRhLW9sZF9jb2xvcj0iIzAwMDAwMCIgZmlsbD0iIzFEQ0I4QiIvPg0KPC9nPjwvZz4gPC9zdmc+DQo="
+                alt=""></a>
+        <div class="planet"></div>
+        <div class="container plan">
+            <div class="row justify-content-end">
+                <div class="content details">
+                    <div class="title" style="overflow: hidden;">
+                        <h1>冥王星</h1>
+                    </div>
+                    <div class="line"></div>
+                    <div class="body">
+                        <div class="part">
+                            <h3>特殊環境</h3>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    function showPop(title, pic_src, arr) {
+        let h1 = document.querySelector(".details > .title > h1");
+        h1.innerText = title;
+        let body = document.querySelector(".details > .body");
+        body.innerHTML = "";
+        document.querySelector(".pop > .planet").style['background-image'] = `url('${pic_src}')`;
+        arr.map((elem, i) => {
+            let str = `<div class="part"><h3>${elem.head}</h3><p${(i != 0) ? ' style="padding-left: 2em;"' : ''}>${elem.content}</p></div>`;
+            body.innerHTML += str;
+        });
+        let pop = document.querySelector("#pop");
+        pop.style.display = "block";
+        pop.animate([
+            { opacity: 0 },
+            { opacity: 1 },
+        ], {
+            easing: 'ease-out',
+            duration: 800
+        });
+    }
+
+
+
+
+    var ctx;
+    function drawPath(point) {
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    window.onload = () => {
+        let canvas = document.getElementById('canvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        ctx = canvas.getContext("2d");
+        setInterval(() => {
+            let obj = document.querySelector(".train");
+            var x = 0, y = 0;
+            x += obj.offsetLeft - obj.scrollLeft + obj.clientLeft + 50;
+            y += obj.offsetTop - obj.scrollLeft + obj.clientTop + 50;
+            //console.log(`{ x:${x}, y:${y}}`);
+            drawPath({ x: x, y: y });
+            ctx.clearRect(0, 0, x - 80, canvas.height);
+        }, 170);
+
+
+
+
+
+
+        // 畫線
+        {
+            let line = document.querySelector('.details .line');
+            line.animate([
+                { width: '0%', margin: "0% 0% 0% 0%", opacity: 0, transform: "translateX(200%)" },
+                { width: '80%', margin: "0% 10% 0% 10%", opacity: 1, transform: "translateX(0%)" },
+            ], 500);
+        }
+
+        {
+            let title = document.querySelector('.details .title > h1');
+            let bodys = document.querySelector('.details > .body');
+            title.style.opacity = 0;
+            bodys.style.opacity = 0;
+            setTimeout(() => {
+                title.animate([
+                    { transform: "translateY(100%)", opacity: 0 },
+                    { transform: "translateY(0%)", opacity: 1 },
+                ], {
+                    duration: 1000,
+                    easing: "ease-in"
+                });
+                title.style.opacity = 1;
+                bodys.animate([
+                    { height: "0", opacity: 0 },
+                    { height: "85vh", opacity: 1 },
+                ], {
+                    duration: 1000,
+                    easing: "ease-in"
+                });
+                bodys.style.opacity = 1
+            }, 500);
+        }
+
+    }
+    window.onresize = () => {
+        let canvas = document.getElementById('canvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+</script>
+
+</html>
