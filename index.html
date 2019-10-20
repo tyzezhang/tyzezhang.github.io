@@ -473,6 +473,9 @@
 
 <body>
     <canvas class="BG" id="canvas"></canvas>
+    <div id="banner"
+        style="background-repeat: no-repeat; background-image: url('img/banner.jpg'); position: absolute; top: 0px; left: 0px; width: 100vw; height: 100vh; background-size: cover; opacity: 1; z-index: 10000">
+    </div>
     <div class="orient"></div>
     <div class="train"></div>
     <div class="planet"
@@ -580,21 +583,72 @@
             easing: 'ease-out',
             duration: 800
         });
+        setTimeout(() => {
+            // 畫線
+            {
+                let line = document.querySelector('.details .line');
+                line.animate([
+                    { width: '0%', margin: "0% 0% 0% 0%", opacity: 0, transform: "translateX(200%)" },
+                    { width: '80%', margin: "0% 10% 0% 10%", opacity: 1, transform: "translateX(0%)" },
+                ], 500);
+            }
+
+            {
+                let title = document.querySelector('.details .title > h1');
+                let bodys = document.querySelector('.details > .body');
+                title.style.opacity = 0;
+                bodys.style.opacity = 0;
+                setTimeout(() => {
+                    title.animate([
+                        { transform: "translateY(100%)", opacity: 0 },
+                        { transform: "translateY(0%)", opacity: 1 },
+                    ], {
+                        duration: 1000,
+                        easing: "ease-in"
+                    });
+                    title.style.opacity = 1;
+                    bodys.animate([
+                        { height: "0", opacity: 0 },
+                        { height: "85vh", opacity: 1 },
+                    ], {
+                        duration: 1000,
+                        easing: "ease-in"
+                    });
+                    bodys.style.opacity = 1
+                }, 500);
+            }
+        }, 400);
     }
 
 
 
 
     var ctx;
+    var points = [];
     function drawPath(point) {
         ctx.beginPath();
         ctx.fillStyle = "white";
         ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI);
         ctx.closePath();
         ctx.fill();
+        points.push(point);
     }
 
     window.onload = () => {
+        let banner = document.getElementById('banner');
+        banner.style.opacity = 1;
+        banner.style['z-index'] = 10000;
+        banner.animate([
+            { opacity: 1, "z-index": 10000 },
+            { opacity: 1, "z-index": 10000 },
+            { opacity: 1, "z-index": 10000 },
+            { opacity: 0, "z-index": -10000 }
+        ], 2000);
+        setTimeout(() => {
+            banner.style.opacity = 0;
+            banner.style['z-index'] = -10000;
+        }, 2000);
+
         let canvas = document.getElementById('canvas');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -607,47 +661,14 @@
             y += obj.offsetTop - obj.scrollLeft + obj.clientTop + 50;
             //console.log(`{ x:${x}, y:${y}}`);
             drawPath({ x: x, y: y });
-            ctx.clearRect(0, 0, x - 80, canvas.height);
         }, 170);
 
-
-
-
-
-
-        // 畫線
-        {
-            let line = document.querySelector('.details .line');
-            line.animate([
-                { width: '0%', margin: "0% 0% 0% 0%", opacity: 0, transform: "translateX(200%)" },
-                { width: '80%', margin: "0% 10% 0% 10%", opacity: 1, transform: "translateX(0%)" },
-            ], 500);
-        }
-
-        {
-            let title = document.querySelector('.details .title > h1');
-            let bodys = document.querySelector('.details > .body');
-            title.style.opacity = 0;
-            bodys.style.opacity = 0;
-            setTimeout(() => {
-                title.animate([
-                    { transform: "translateY(100%)", opacity: 0 },
-                    { transform: "translateY(0%)", opacity: 1 },
-                ], {
-                    duration: 1000,
-                    easing: "ease-in"
-                });
-                title.style.opacity = 1;
-                bodys.animate([
-                    { height: "0", opacity: 0 },
-                    { height: "85vh", opacity: 1 },
-                ], {
-                    duration: 1000,
-                    easing: "ease-in"
-                });
-                bodys.style.opacity = 1
-            }, 500);
-        }
+        setInterval(() => {
+            if (points.length > 10) {
+                let p = points.shift();
+                ctx.clearRect(p.x - 5, p.y - 5, 10, 10);
+            }
+        }, 100)
 
     }
     window.onresize = () => {
